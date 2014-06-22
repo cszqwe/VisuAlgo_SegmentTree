@@ -1,79 +1,438 @@
 <!DOCTYPE html>
-<html>
+<head>
 
-  <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="VisuAlgo SegmentTree : VisuAlgo" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+<title>VisuAlgo - Segment Tree</title>
+<link rel="icon" type="image/png" href="img/favicon.png" />
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+<!--css-->
+<link rel="stylesheet" href="css/normalize.css">
+<link rel="stylesheet" href="css/common.css">
+<link rel="stylesheet" href="css/viz.css">
 
-    <title>VisuAlgo SegmentTree</title>
-  </head>
+<link rel="stylesheet" href="css/st.css">
 
-  <body>
+<!--js-->
+<script src="js/external/jquery-1.10.2.js"></script>
+<script src="js/external/jquery-ui.js"></script>
+<script src="js/external/d3.v3.js"></script>
+<script src="js/viz.js"></script>
+<script src="js/common.js"></script>
+<script src="js/actions/st_actions.js"></script>
+<!--script src="//connect.facebook.net/en_US/all.js"></script-->
+<!-- more scripts are below-->
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/cszqwe/VisuAlgo_SegmentTree">View on GitHub</a>
+<!--fonts-->
+<link href="fonts/silkscreen/stylesheet.css" rel='stylesheet' type='text/css'>
+<link href='fonts/PTSans/stylesheet.css' rel='stylesheet' type='text/css'>
 
-          <h1 id="project_title">VisuAlgo SegmentTree</h1>
-          <h2 id="project_tagline">VisuAlgo</h2>
+</head>
 
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/cszqwe/VisuAlgo_SegmentTree/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/cszqwe/VisuAlgo_SegmentTree/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
+<body>
+
+<div id="top-bar">
+  <a id="home" href="index.html">Visu<span class="colour">Algo</span></a>
+    <span id="title">
+      <a id="title-ST" class="selected-viz">Segment Tree</a>
+    </span>
+    <!--a id="fb-login" href="#" target="_blank">Facebook connect</a>
+    <span id="trick">
+    <fb:login-button show-faces="false" width="200" max-rows="1" style="float: right; margin-top: 9px;"></fb:login-button>
+    </span-->
+    <div id="mode-menu">
+      <div id="mode-button">Exploration Mode<img src="img/arrow_white.png"/></div>
+        <div id="other-modes">
+            <a href="#">Tutorial Mode</a>
+        </div>
     </div>
-
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
-
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
-
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
-
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
-
-<h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
-
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
-
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
-
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
-
-<h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
-
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
-
-<h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
-
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
-      </section>
-    </div>
-
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">VisuAlgo SegmentTree maintained by <a href="https://github.com/cszqwe">cszqwe</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
-      </footer>
-    </div>
-
+</div>
     
+    <div id="viz"></div>
+    
+    <div id="current-action" class="panel"><p></p></div>
+    
+    <div id="actions" class="panel">
+      <p id="create" class="execAction">Create</p>
+        <p id="rmq" class="execAction">RMQ</p>
+    <p id="update" class="execAction">Update</p>
+    </div>
+    <div id="actions-hide" class="panel-hide"><img src="img/arrow_white_right.png" title="show/hide actions panel"/></div>
+    <div id="actions-extras">
+    <!--put all the extra action pullouts (input) and error messages here-->
+      <div class="create action-menu-pullout">
+        <div id="create-input" class="new-menu-option"><input type="text" id="v-create" title="Enter an array, empty for random" autocomplete="off" value="" /></div>
+            <div id="create-min" class="execAction coloured-menu-option" onclick=createMinTree()><p>Min</p></div>
+            <div id="create-max" class="execAction coloured-menu-option" onclick=createMaxTree()><p>Max</p></div>
+            <div id="create-sum" class="execAction coloured-menu-option" onclick=createSumTree()><p>Sum</p></div>
+        </div>
+      <div class="rmq action-menu-pullout">
+            <div id="rmq-input-l" class="new-menu-option"><input type="text" id="v-rmq-l" title="Enter an integer L" autocomplete="off" value=0 /></div>
+            <div id="rmq-input-r" class="new-menu-option"><input type="text" id="v-rmq-r" title="Enter an integer R" autocomplete="off" value=6 /></div>
+            <div id="rmq-go" class="execAction coloured-menu-option" onclick=rmq()><p>GO</p></div>
+            <div id="rmq-err" class="err"></div>
+        </div>
+    <div class="update action-menu-pullout">
+            <div id="update-input-l" class="new-menu-option"><input type="text" id="v-update-l" title="Enter an integer L" autocomplete="off" value=0 /></div>
+            <div id="update-input-r" class="new-menu-option"><input type="text" id="v-update-r" title="Enter an integer R" autocomplete="off" value=6 /></div>
+      <div id="update-input-value" class="new-menu-option"><input type="text" id="v-update-value" title="Enter an integer R" autocomplete="off" value=6 /></div>
+            <div id="update-go" class="execAction coloured-menu-option" onclick=update()><p>GO</p></div>
+            <div id="update-err" class="err"></div>
+        </div>
+    </div>
+    
+    <div id="status" class="panel"><p></p></div>
+    <div id="status-hide" class="panel-hide"><img src="img/arrow_white_right.png" title="show/hide status panel"/></div>
+    
+    <div id="codetrace" class="panel">
+      <!--can add class "highlighed" to hightlight one line-->
+      <p id="code1" style="padding-top: 10px;"></p>
+        <p id="code2"></p>
+        <p id="code3"></p>
+    <p id="code4"></p>
+    <p id="code5"></p>
+    <p id="code6"></p>
+    <p id="code7" style="padding-bottom: 10px;"></p>
+    </div>
+    <div id="codetrace-hide" class="panel-hide"><img src="img/arrow_white_right.png" title="show/hide codetrace panel"/></div>
+    
+<div id="left-bar"></div>
+<div id="right-bar"></div>
+<!-- Bottom bar and overlay popups -->
+<div id="bottom-bar">
+  <a id="trigger-about">About</a>
+    <a id="trigger-team">Team</a>
+    <a id="trigger-terms">Terms of use</a>
+</div>
 
-  </body>
+<div id="media-controls">
+  <div id="speed-control">slow<div id="speed-input"></div>fast</div>
+  <span id="go-to-beginning" class="media-control-button" title="go to beginning" onclick=goToBeginning()><img src="img/goToBeginning.png" alt="go to beginning" /></span>
+  <span id="previous" class="media-control-button" title="step backward" onclick=stepBackward()><img src="img/prevFrame.png" alt="previous frame" /></span>
+    <span id="pause" class="media-control-button" title="pause" onclick=pause()><img src="img/pause.png" alt="pause" /></span>
+    <span id="play" class="media-control-button" title="play" onclick=play()><img src="img/play.png" alt="play" /></span>
+    <span id="next" class="media-control-button" title="step forward" onclick=stepForward()><img src="img/nextFrame.png" alt="next frame" /></span>
+    <span id="go-to-end" class="media-control-button" title="go to end" onclick=goToEnd()><img src="img/goToEnd.png" alt="go to end"/></span>
+    <div id="progress-bar" class="media-control-button"></div>
+</div>
+
+<div id="dark-overlay"></div>
+<div id="about" class="overlays"></div>
+<div id="team" class="overlays"></div>
+<div id="termsofuse" class="overlays"></div>
+
+<!--tutorial dialogs here-->
+<div id="bst-tutorial-1" class="tutorial-dialog">
+  A Binary Search Tree (BST) is a tree in which each node has only 2 children. A node's left child (if existent) must hold a value smaller than its own, and its right child (if existent) must hold a value larger than its own. An AVL tree is a self-balancing BST.
+    <div class="tutorial-next">Next<img src="img/arrow_white_right.png"/></div>
+</div>
+<div id="bst-tutorial-2" class="tutorial-dialog">
+  To toggle between the standard Binary Search Tree and the AVL Tree, select the respective header.
+    <div class="tutorial-next">Next<img src="img/arrow_white_right.png"/></div>
+</div>
+<div id="bst-tutorial-3" class="tutorial-dialog">
+  All available operations on the BST/AVL Tree will be shown here. Select an action and provide the necessary input, and the action will be animated in the visualisation area.
+    <div class="tutorial-next">Next<img src="img/arrow_white_right.png"/></div>
+</div>
+<div id="bst-tutorial-4" class="tutorial-dialog">
+  View the visualisation here!
+    <div class="tutorial-next">Next<img src="img/arrow_white_right.png"/></div>
+</div>
+<div id="bst-tutorial-5" class="tutorial-dialog">
+  As the action is being carried out, each step will be described in the status panel.
+    <div class="tutorial-next">Next<img src="img/arrow_white_right.png"/></div>
+</div>
+<div id="bst-tutorial-6" class="tutorial-dialog">
+  You can also follow the psuedocode highlights to trace the algorithm.
+    <div class="tutorial-next">Next<img src="img/arrow_white_right.png"/></div>
+</div>
+<div id="bst-tutorial-7" class="tutorial-dialog">
+  Control the animation with the player controls! Keyboard shortcuts are:<br/>
+    <div style="margin-top: 8px;"><strong>Spacebar:</strong> play/pause/replay</div>
+    <strong>Left/right arrows:</strong> step backward/step forward<br/>
+    <strong>-/+:</strong> decrease/increase speed<br/>
+    <div class="tutorial-next">Next<img src="img/arrow_white_right.png"/></div>
+</div>
+<div id="bst-tutorial-8" class="tutorial-dialog">
+  Return to "Exploration Mode" to start exploring!
+</div>
+
+<script src="js/graph_library/constant.js"></script>
+<script src="js/graph_library/properties.js"></script>
+<script src="js/graph_library/helperObjects.js"></script>
+<script src="js/graph_library/misc.js"></script>
+<script src="js/graph_library/Widget.js"></script>
+<script src="js/graph_library/GraphWidget.js"></script>
+<script src="js/graph_library/GraphVertexWidget.js"></script>
+<script src="js/graph_library/GraphEdgeWidget.js"></script>
+<script src="js/Widgets/StWidget.js"></script>
+
+<script type="text/javascript">
+  $('#play').hide();
+
+  //this viz-specific code
+  var stWidget = new ST();
+  var gw = stWidget.getGraphWidget();
+  createMinTree(); 
+  var tree_type=1;//0 for empty tree, 1 for min, 2 for max, 3 for sum 
+    function getCreateData() {
+      var input = $('#v-create').val();
+      if (input == "") {
+	  	//alert("random");
+        vertexAmt = Math.floor((Math.random()*(16-5) + 5));
+        var initArr = [];
+		//alert(vertexAmt);
+        while(initArr.length < vertexAmt) {
+          var random = Math.floor(1+Math.random()*(100-1));
+ 		
+          initArr.push(random);
+        }
+		console.log(initArr);
+        return initArr;
+      } else {
+        input = input.replace(/\s*/g,"").split(',');
+        for (i in input) {
+          input[i] = Number(input[i]);
+          if (typeof input[i] == "NaN") {
+            alert("Invaild input");
+            return null;
+          }
+        }
+		//alert(input);
+        return input;
+      }
+    }
+  function createMinTree() {
+    var data;
+	treetype=1;
+    if(isPlaying) { stop(); }
+    setTimeout( function() {
+      if ((mode=="exploration") && ((data = getCreateData()) != null)) {
+        stWidget.generateMin(data);
+        $('#current-action').show();
+        $('#current-action p').html("Build tree");
+        $('#progress-bar').slider( "option", "max", gw.getTotalIteration()-1);
+        closeCreate();
+        triggerRightPanels();
+        isPlaying = true;
+      }
+    }, 500)
+  }
+
+  function createMaxTree() {
+    var data;
+	treetype=2;
+    if(isPlaying) { stop(); }
+    setTimeout( function() {
+      if ((mode=="exploration") && ((data = getCreateData()) != null)) {
+        stWidget.generateMax(data);
+        $('#current-action').show();
+        $('#current-action p').html("Build tree");
+        $('#progress-bar').slider( "option", "max", gw.getTotalIteration()-1);
+        closeCreate();
+        triggerRightPanels();
+        isPlaying = true;
+      }
+    }, 500)
+  }
+
+  function createSumTree() {
+    var data;
+	treetype=3;
+    if(isPlaying) { stop(); }
+    setTimeout( function() {
+      if ((mode=="exploration") && ((data = getCreateData()) != null)) {
+        stWidget.generateSum(data);
+        $('#current-action').show();
+        $('#current-action p').html("Build tree");
+        $('#progress-bar').slider( "option", "max", gw.getTotalIteration()-1);
+        closeCreate();
+        triggerRightPanels();
+        isPlaying = true;
+      }
+    }, 500)
+  }
+
+    function rmq(){
+    if(isPlaying) { stop(); }
+    setTimeout( function() {
+      var input_l = $('#v-rmq-l').val();
+      var input_r = $('#v-rmq-r').val();
+      input_l = parseInt(input_l);
+      input_r = parseInt(input_r);
+	  if (treetype==1){
+	      if((mode=="exploration")&&stWidget.rmqMin(input_l, input_r)) {
+    	    $('#current-action').show();
+    	    $('#current-action p').html("Query RMQ in ["+ input_l + ", " + input_r + "]");
+    	    $('#progress-bar').slider( "option", "max", gw.getTotalIteration()-1);
+    	    	triggerRightPanels();
+    	    	isPlaying = true;
+    	  	}
+
+     }else if (treetype==2){
+	 	 if((mode=="exploration")&&stWidget.rmqMax(input_l, input_r)) {
+    	    $('#current-action').show();
+    	    $('#current-action p').html("Query RMQ in ["+ input_l + ", " + input_r + "]");
+    	    $('#progress-bar').slider( "option", "max", gw.getTotalIteration()-1);
+    	    	triggerRightPanels();
+    	    	isPlaying = true;
+    	  	}
+	}else if (treetype==3){
+	 	 if((mode=="exploration")&&stWidget.rmqSum(input_l, input_r)) {
+    	    $('#current-action').show();
+    	    $('#current-action p').html("Query RMQ in ["+ input_l + ", " + input_r + "]");
+    	    $('#progress-bar').slider( "option", "max", gw.getTotalIteration()-1);
+    	    	triggerRightPanels();
+    	    	isPlaying = true;
+    	  	}
+	}
+	    		}, 500)
+	}
+  function update(){
+    if(isPlaying) { stop(); }
+    setTimeout( function() {
+      var input_l = $('#v-update-l').val();
+      var input_r = $('#v-update-r').val();
+      var input_value=$('#v-update-value').val();
+      input_l = parseInt(input_l);
+      input_r = parseInt(input_r);
+      input_value=parseInt(input_value);
+      if (treetype==1){	
+		if((mode=="exploration")&&stWidget.updateMin(input_l, input_r,input_value)) {
+      	  $('#current-action').show();
+      	  $('#current-action p').html("Query Update in ["+ input_l + ", " + input_r + "]");
+      	  $('#progress-bar').slider( "option", "max", gw.getTotalIteration()-1);
+      	  triggerRightPanels();
+      	  isPlaying = true;
+      	}
+	  }else if (treetype==2){
+	  	if((mode=="exploration")&&stWidget.updateMax(input_l, input_r,input_value)) {
+      	  $('#current-action').show();
+      	  $('#current-action p').html("Query Update in ["+ input_l + ", " + input_r + "]");
+      	  $('#progress-bar').slider( "option", "max", gw.getTotalIteration()-1);
+      	  triggerRightPanels();
+      	  isPlaying = true;
+      	}
+	  }else if (treetype==3){
+	  	if((mode=="exploration")&&stWidget.updateSum(input_l, input_r,input_value)) {
+      	  $('#current-action').show();
+      	  $('#current-action p').html("Query Update in ["+ input_l + ", " + input_r + "]");
+      	  $('#progress-bar').slider( "option", "max", gw.getTotalIteration()-1);
+      	  triggerRightPanels();
+      	  isPlaying = true;
+      	}
+	 }
+    }, 500)
+    }
+  //playback controls might fit better in viz.js, but put here in case some viz does not use GraphWidgetNew.js
+  var isPaused = false;
+  function isAtEnd() {
+    return (gw.getCurrentIteration()==(gw.getTotalIteration()-1));
+  }
+  
+  function pause() {
+    if(isPlaying) {
+      isPaused = true;
+      gw.pause();
+      $('#play').show();
+      $('#pause').hide();
+    }
+  }
+  function play() {
+    if(isPlaying) {
+      isPaused = false;
+      $('#pause').show();
+      $('#play').hide();
+      if(isAtEnd()) {
+        gw.replay();
+      } else {
+        gw.play();
+      }
+    }
+  }
+  function stepForward() {
+    if(isPlaying) {
+      pause();
+      gw.forceNext(250);
+    }
+  }
+  function stepBackward() {
+    if(isPlaying) {
+      pause();
+      gw.forcePrevious(250);  
+    }
+  }
+  function goToBeginning() {
+    if(isPlaying) {
+      gw.jumpToIteration(0,0);
+      pause();
+    }
+  }
+  function goToEnd() {
+    if(isPlaying) {
+      gw.jumpToIteration(gw.getTotalIteration()-1,0);
+      pause();
+    }
+  }
+  function stop() {
+    gw.stop();
+    isPaused = false;
+    isPlaying = false;
+    $('#pause').show();
+    $('#play').hide();
+    $('#current-action').hide();
+  }
+  
+  //shortcut keys for playback controls
+  $(document).keydown( function(event) {
+    if(event.which == 32) { //spacebar
+      if(isPaused) { play(); } else { pause(); }
+    } else if(event.which == 37) { //left arrow
+      stepBackward();
+    } else if(event.which == 39) { //right arrow
+      stepForward();
+    } else if(event.which == 35) { //end
+      stop();
+    } else if (event.which == 189) { //minus
+      var d = (2200-gw.getAnimationDuration())-100;
+      if(d > 0) {
+        $("#speed-input").slider("value", d);
+      } else {
+        $("#speed-input").slider("value", 0);
+      }
+    } else if (event.which == 187) { //plus
+      var d = (2200-gw.getAnimationDuration())+100;
+      if(d <= 2000) {
+        $("#speed-input").slider("value", d);
+      } else {
+        $("#speed-input").slider("value", 2000);
+      }
+    }
+  });
+  
+  //sliders
+  $("#speed-input").slider({
+    min: 200,
+    max: 2000,
+    value: 1700,
+    change: function(event, ui) {
+      gw.setAnimationDuration(2200-ui.value);
+    }
+  });
+  $("#progress-bar").slider({
+    range: "min",
+    min: 0,
+    value: 0,
+    slide: function(event, ui) {
+      gw.pause();
+      gw.jumpToIteration(ui.value,0);
+    },
+    stop: function(event, ui) {
+      if(!isPaused) { setTimeout( function(){gw.play();}, 500) }
+    }
+  });
+  
+</script>
+
+</body>
 </html>

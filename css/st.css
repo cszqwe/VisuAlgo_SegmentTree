@@ -1,0 +1,131 @@
+@charset "utf-8";
+
+/*all action pullout (input) stuff here*/
+.create { bottom: 124px; }
+	#create-input input {
+		width: 150px;
+		height: 22px;
+		padding: 5px 8px 5px;
+	}
+	#create-min p { padding: 5px 10px 10px; }
+	#create-max p { padding: 5px 10px 10px; }
+	#create-sum p { padding: 5px 10px 10px; }
+
+.rmq { bottom: 92px; }
+	#rmq-input-l input {
+		width: 25px;
+		height: 22px;
+		padding: 5px 8px 5px;
+	}
+	#rmq-input-r input {
+		width: 25px;
+		height: 22px;
+		padding: 5px 8px 5px;
+	}
+	#rmq-go p { padding: 5px 10px 10px; }
+	#rmq-err { padding: 5px 0px; } /* currently unused*/
+
+.update { bottom: 60px; }
+	#update-input-l input {
+		width: 25px;
+		height: 22px;
+		padding: 5px 8px 5px;
+	}
+	#update-input-r input {
+		width: 25px;
+		height: 22px;
+		padding: 5px 8px 5px;
+	}
+	#update-input-value input {
+		width: 25px;
+		height: 22px;
+		padding: 5px 8px 5px;
+	}
+	#update-go p { padding: 5px 10px 10px; }
+	#update-err { padding: 5px 0px; } /* currently unused*/
+		
+/*all tutorial stuff here*/
+#bst-tutorial-1 {
+	top: 60px;
+	left: 60px;
+	width: 250px;
+}
+#bst-tutorial-2 {
+	top: 60px;
+	left: 220px;
+	width: 230px;
+}
+	#bst-tutorial-2:before {
+		bottom: 100%;
+		left: 50%;
+		border-bottom-color: black;
+		margin-left: -10px;
+	}
+#bst-tutorial-3 {
+	bottom: 280px;
+	left: 60px;
+	width: 220px;
+}
+	#bst-tutorial-3:before {
+		top: 100%;
+		left: 20%;
+		border-top-color: black;
+		margin-left: -10px;
+	}
+#bst-tutorial-4 {
+	top: 300px;
+	left: 50%;
+	width: 200px;
+	margin-left: -110px;
+}
+	#bst-tutorial-4:before {
+		bottom: 100%;
+		left: 50%;
+		border-bottom-color: black;
+		margin-left: -10px;
+	}
+#bst-tutorial-5 {
+	bottom: 335px;
+	right: 150px;
+	width: 200px;
+}
+	#bst-tutorial-5:before {
+		top: 100%;
+		left: 20%;
+		border-top-color: black;
+		margin-left: -10px;
+	}
+#bst-tutorial-6 {
+	bottom: 275px;
+	right: 170px;
+	width: 180px;
+}
+	#bst-tutorial-6:before {
+		top: 100%;
+		left: 20%;
+		border-top-color: black;
+		margin-left: -10px;
+	}
+#bst-tutorial-7 {
+	bottom: 70px;
+	left: 50%;
+	width: 220px;
+	margin-left: -120px;
+}
+	#bst-tutorial-7:before {
+		top: 100%;
+		left: 50%;
+		border-top-color: black;
+		margin-left: -10px;
+	}
+#bst-tutorial-8 {
+	top: 70px;
+	right: 60px;
+	width: 150px;
+}
+	#bst-tutorial-8:before {
+		bottom: 100%;
+		left: 50%;
+		border-bottom-color: black;
+		margin-left: -10px;
+	}

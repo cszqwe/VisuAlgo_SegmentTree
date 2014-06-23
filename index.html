@@ -265,6 +265,7 @@
     	    $('#current-action').show();
     	    $('#current-action p').html("Query RMQ in ["+ input_l + ", " + input_r + "]");
     	    $('#progress-bar').slider( "option", "max", gw.getTotalIteration()-1);
+          closeRMQ();
     	    	triggerRightPanels();
     	    	isPlaying = true;
     	  	}
@@ -274,6 +275,7 @@
     	    $('#current-action').show();
     	    $('#current-action p').html("Query RMQ in ["+ input_l + ", " + input_r + "]");
     	    $('#progress-bar').slider( "option", "max", gw.getTotalIteration()-1);
+          closeRMQ();
     	    	triggerRightPanels();
     	    	isPlaying = true;
     	  	}
@@ -282,6 +284,7 @@
     	    $('#current-action').show();
     	    $('#current-action p').html("Query RMQ in ["+ input_l + ", " + input_r + "]");
     	    $('#progress-bar').slider( "option", "max", gw.getTotalIteration()-1);
+          closeRMQ();
     	    	triggerRightPanels();
     	    	isPlaying = true;
     	  	}
@@ -302,6 +305,7 @@
       	  $('#current-action').show();
       	  $('#current-action p').html("Query Update in ["+ input_l + ", " + input_r + "]");
       	  $('#progress-bar').slider( "option", "max", gw.getTotalIteration()-1);
+          closeUpdate();
       	  triggerRightPanels();
       	  isPlaying = true;
       	}
@@ -310,6 +314,7 @@
       	  $('#current-action').show();
       	  $('#current-action p').html("Query Update in ["+ input_l + ", " + input_r + "]");
       	  $('#progress-bar').slider( "option", "max", gw.getTotalIteration()-1);
+          closeUpdate();
       	  triggerRightPanels();
       	  isPlaying = true;
       	}
@@ -318,6 +323,7 @@
       	  $('#current-action').show();
       	  $('#current-action p').html("Query Update in ["+ input_l + ", " + input_r + "]");
       	  $('#progress-bar').slider( "option", "max", gw.getTotalIteration()-1);
+          closeUpdate();
       	  triggerRightPanels();
       	  isPlaying = true;
       	}

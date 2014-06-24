@@ -1,17 +1,17 @@
 // Defines ONE vertex object
 // Set styles in properties.js and the CSS files!!!
 
-var GraphVertexWidget = function(cx, cy, vertexShape, vertexText, vertexLabel, vertexClassNumber){
+var GraphVertexWidget = function(cx, cy, vertexShape, vertexText, vertexClassNumber){
   var self = this;
   var defaultAnimationDuration = 250; // millisecond
 
   var innerVertex;
   var outerVertex;
   var text;
-  var label;
+  var extratext;
+  var vertexExtraText;
 
   var textYaxisOffset = graphVertexProperties["text"]["font-size"]/3;
-  var labelYaxisOffset = graphVertexProperties["label"]["font-size"]/3;
 
   var attributeList = {
     "innerVertex": {
@@ -53,8 +53,8 @@ var GraphVertexWidget = function(cx, cy, vertexShape, vertexText, vertexLabel, v
       "text-anchor": null,
       "text": null
     },
-
-    "label":{
+    
+    "extratext":{
       "class": null,
       "x": null,
       "y": null,
@@ -92,6 +92,7 @@ var GraphVertexWidget = function(cx, cy, vertexShape, vertexText, vertexLabel, v
     attributeList["innerVertex"]["stroke-width"] = graphVertexProperties["innerVertex"]["stroke-width"];
 
     attributeList["text"]["font-size"] = graphVertexProperties["text"]["font-size"];
+    attributeList["extratext"]["font-size"] = graphVertexProperties["text"]["font-size"];
     if (vertexShape == "rect_long") {
       attributeList["outerVertex"]["width"] = 200;  
       attributeList["innerVertex"]["width"] = 198;
@@ -99,8 +100,6 @@ var GraphVertexWidget = function(cx, cy, vertexShape, vertexText, vertexLabel, v
       attributeList["outerVertex"]["width"] = 80;  
       attributeList["innerVertex"]["width"] = 78;
     }
-
-    attributeList["label"]["font-size"] = graphVertexProperties["label"]["font-size"];
   }
 
   this.hideVertex = function(){
@@ -115,8 +114,7 @@ var GraphVertexWidget = function(cx, cy, vertexShape, vertexText, vertexLabel, v
     attributeList["innerVertex"]["stroke-width"] = 0;
 
     attributeList["text"]["font-size"] = 0;
-
-    attributeList["label"]["font-size"] = 0;
+    attributeList["extratext"]["font-size"] = 0;
   }
 
   this.moveVertex = function(cx, cy){
@@ -133,8 +131,8 @@ var GraphVertexWidget = function(cx, cy, vertexShape, vertexText, vertexLabel, v
     attributeList["text"]["x"] = cx;
     attributeList["text"]["y"] = cy + textYaxisOffset;
 
-    attributeList["label"]["x"] = cx;
-    attributeList["label"]["y"] = attributeList["outerVertex"]["y"] - labelYaxisOffset;
+    attributeList["extratext"]["x"] = cx;
+    attributeList["extratext"]["y"] = cy + textYaxisOffset + 26; // always 26 pixels below cx, cy for now
 
     var key;
 
@@ -148,14 +146,15 @@ var GraphVertexWidget = function(cx, cy, vertexShape, vertexText, vertexLabel, v
     attributeList["text"]["text"] = newVertexText;
   }
 
-  this.changeLabel = function(newVertexLabel){
-    vertexLabel = newVertexLabel;
-    attributeList["label"]["text"] = newVertexLabel;
+  this.changeExtraText = function(newVertexExtraText){
+    vertexExtraText = newVertexExtraText;
+    attributeList["extratext"]["text"] = newVertexExtraText;
   }
 
   this.changeTextFontSize = function(newFontSize){
     if(newTextSize == null || isNaN(newTextSize)) return;
     attributeList["text"]["font-size"] = newTextSize;
+    attributeList["extratext"]["font-size"] = newTextSize;
   }
 
   this.changeRadius = function(newRadiusInner, newRadiusOuter){
@@ -192,7 +191,7 @@ var GraphVertexWidget = function(cx, cy, vertexShape, vertexText, vertexLabel, v
     outerVertex.remove();
     innerVertex.remove();
     text.remove();
-    label.remove();
+    extratext.remove();
   }
 
   // DEPRECATED
@@ -276,10 +275,7 @@ var GraphVertexWidget = function(cx, cy, vertexShape, vertexText, vertexLabel, v
     for(key in graphVertexProperties["text"][stateName]){
       attributeList["text"][key] = graphVertexProperties["text"][stateName][key];
     }
-
-    for(key in graphVertexProperties["label"][stateName]){
-      attributeList["label"][key] = graphVertexProperties["label"][stateName][key];
-    }
+    // note: I haven't done extratext here, is it necessary?
   }
 
   this.getAttributes = function(){
@@ -322,9 +318,9 @@ var GraphVertexWidget = function(cx, cy, vertexShape, vertexText, vertexLabel, v
     outerVertex = vertexSvg.append(tmp_vertexShape);
     innerVertex = vertexSvg.append(tmp_vertexShape);
     text = vertexTextSvg.append("text");
-    label = vertexTextSvg.append("text");
+    extratext = vertexTextSvg.append("text");
 
-    attributeList["innerVertex"]["class"] = "v" + vertexClassNumber
+    attributeList["innerVertex"]["class"] = "v" + vertexClassNumber;
     attributeList["innerVertex"]["cx"] = cx;
     attributeList["innerVertex"]["cy"] = cy;
     attributeList["innerVertex"]["x"] = cx-graphVertexProperties["innerVertex"]["width"]/2;
@@ -336,7 +332,7 @@ var GraphVertexWidget = function(cx, cy, vertexShape, vertexText, vertexLabel, v
     attributeList["innerVertex"]["stroke"] = graphVertexProperties["innerVertex"]["default"]["stroke"];
     attributeList["innerVertex"]["stroke-width"] = 0;
 
-    attributeList["outerVertex"]["class"] = "v" + vertexClassNumber
+    attributeList["outerVertex"]["class"] = "v" + vertexClassNumber;
     attributeList["outerVertex"]["cx"] = cx;
     attributeList["outerVertex"]["cy"] = cy;
     attributeList["outerVertex"]["x"] = cx-graphVertexProperties["outerVertex"]["width"]/2;
@@ -361,20 +357,23 @@ var GraphVertexWidget = function(cx, cy, vertexShape, vertexText, vertexLabel, v
     }
     attributeList["text"]["text"] = vertexText;
 
-    attributeList["label"]["class"] = "v" + vertexClassNumber;
-    attributeList["label"]["x"] = cx;
-    attributeList["label"]["y"] = attributeList["outerVertex"]["y"] -  labelYaxisOffset - 5;
-    attributeList["label"]["fill"] = graphVertexProperties["label"]["default"]["fill"];
-    attributeList["label"]["font-family"] = graphVertexProperties["label"]["default"]["font-family"];
-    attributeList["label"]["font-size"] = 0;
-    attributeList["label"]["font-weight"] = graphVertexProperties["label"]["default"]["font-weight"];
-    attributeList["label"]["text-anchor"] = graphVertexProperties["label"]["default"]["text-anchor"];
-    attributeList["label"]["text"] = vertexLabel;
+    attributeList["extratext"]["class"] = "v" + vertexClassNumber;
+    attributeList["extratext"]["x"] = cx;
+    attributeList["extratext"]["y"] = cy + textYaxisOffset + 26;
+    attributeList["extratext"]["fill"] = "red"; // graphVertexProperties["text"]["default"]["fill"];
+    attributeList["extratext"]["font-family"] = graphVertexProperties["text"]["default"]["font-family"];
+    attributeList["extratext"]["font-size"] = 0; 
+    attributeList["extratext"]["font-weight"] = graphVertexProperties["text"]["default"]["font-weight"];
+    attributeList["extratext"]["text-anchor"] = graphVertexProperties["text"]["default"]["text-anchor"];
+    if (vertexShape == "rect_long") {
+      attributeList["extratext"]["text-anchor"] = "left";
+    }
+    attributeList["extratext"]["text"] = ""; // by default, this is empty until initialized
 
     innerVertex.attr("class", attributeList["innerVertex"]["class"]);
     outerVertex.attr("class", attributeList["outerVertex"]["class"]);
     text.attr("class", attributeList["text"]["class"]);
-    label.attr("class", attributeList["label"]["class"]);
+    extratext.attr("class", attributeList["extratext"]["class"]);
 
     innerVertex.attr("cx", attributeList["innerVertex"]["cx"])
               .attr("cy", attributeList["innerVertex"]["cy"])
@@ -409,16 +408,16 @@ var GraphVertexWidget = function(cx, cy, vertexShape, vertexText, vertexLabel, v
           return attributeList["text"]["text"];
         });
 
-    label.attr("x", attributeList["label"]["x"])
-        .attr("y", attributeList["label"]["y"])
-        .attr("fill", attributeList["label"]["fill"])
-        .attr("font-family", attributeList["label"]["font-family"])
-        .attr("font-size", attributeList["label"]["font-size"])
-        .attr("font-weight", attributeList["label"]["font-weight"])
-        .attr("text-anchor", attributeList["label"]["text-anchor"])
-        .text(function(){
-          return attributeList["label"]["text"];
-        });
+    extratext.attr("x", attributeList["extratext"]["x"])
+             .attr("y", attributeList["extratext"]["y"])
+             .attr("fill", attributeList["extratext"]["fill"])
+             .attr("font-family", attributeList["extratext"]["font-family"])
+             .attr("font-size", attributeList["extratext"]["font-size"])
+             .attr("font-weight", attributeList["extratext"]["font-weight"])
+             .attr("text-anchor", attributeList["extratext"]["text-anchor"])
+             .text(function(){
+               return attributeList["extratext"]["text"];
+             });
   }
 
   // Refreshes the vertex image
@@ -467,17 +466,17 @@ var GraphVertexWidget = function(cx, cy, vertexShape, vertexText, vertexLabel, v
           return attributeList["text"]["text"];
       });
 
-    label.transition()
-        .duration(dur)
-        .attr("x", attributeList["label"]["x"])
-        .attr("y", attributeList["label"]["y"])
-        .attr("fill", attributeList["label"]["fill"])
-        .attr("font-family", attributeList["label"]["font-family"])
-        .attr("font-size", attributeList["label"]["font-size"])
-        .attr("font-weight", attributeList["label"]["font-weight"])
-        .attr("text-anchor", attributeList["label"]["text-anchor"])
-        .text(function(){
-          return attributeList["label"]["text"];
-      });
+    extratext.transition()
+             .duration(dur)
+             .attr("x", attributeList["extratext"]["x"])
+             .attr("y", attributeList["extratext"]["y"])
+             .attr("fill", attributeList["extratext"]["fill"])
+             .attr("font-family", attributeList["extratext"]["font-family"])
+             .attr("font-size", attributeList["extratext"]["font-size"])
+             .attr("font-weight", attributeList["extratext"]["font-weight"])
+             .attr("text-anchor", attributeList["extratext"]["text-anchor"])
+             .text(function(){
+               return attributeList["extratext"]["text"];
+           });
   }
 }

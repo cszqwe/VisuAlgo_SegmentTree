@@ -1,5 +1,4 @@
-// @author  Koh Zi Chun
-// Graph Widget. currently in a mess
+// first starting author: Koh Zi Chun
 // add keyboard shortcut for animation
 
 // Ivan: Most (if not all) functions will be changed to accomodate new library (D3.js)
@@ -15,7 +14,6 @@
  *       Make graph drawing capabilities one of the backend library to allow visualizations 
  *       requiring drawing capabilities to be built on it
  */
-
 
 var vertexSvg = mainSvg.append("g")
                       .attr("id", "vertex");
@@ -53,10 +51,10 @@ var GraphWidget = function(){
 
   // Adds a CIRCLE vertex
   // TODO: Merge with addRectVertex
-  this.addVertex = function(cx, cy, vertexText, vertexLabel, vertexClassNumber, show){
+  this.addVertex = function(cx, cy, vertexText, vertexClassNumber, show){
     if(show != false) show = true;
 
-    var newVertex = new GraphVertexWidget(cx,cy,VERTEX_SHAPE_CIRCLE,vertexText,vertexLabel,vertexClassNumber);
+    var newVertex = new GraphVertexWidget(cx,cy,VERTEX_SHAPE_CIRCLE,vertexText,vertexClassNumber);
 
     vertexList[vertexClassNumber] = newVertex;
     vertexUpdateList[vertexClassNumber] = false;
@@ -138,7 +136,7 @@ var GraphWidget = function(){
   /* 
    * stateList: List of JS object containing the states of the objects in the graph
    * Structure of stateList: List of JS object with the following keys and values:
-   *                            - vl: JS object with vertex ID as keys and corresponding state positions and constants as value
+   *                            - vl: JS object with vertex ID as keys and corresponding state positions and constants as value (NEW: another extra text)
    *                            - el: JS object with edge ID as keys and corresponding state connections constants as value
    *
    * Objects not present in the i-th iteration stateList will be hidden until the animation stops, where it will be removed
@@ -164,6 +162,7 @@ var GraphWidget = function(){
    * - inner-stroke-width : Customize the vertex's inner stroke width!
    * - outer-stroke-width : Customize the vertex's outer stroke width!
    * - text-font-size : Customize the vertex text's font size!
+   * - NEW: extratext : Add a red extra text below each vertex
    */
 
   /*
@@ -396,6 +395,9 @@ var GraphWidget = function(){
       }
       if(currentVertexState[key]["inner-stroke-width"] != null && currentVertexState[key]["outer-stroke-width"] != null){
          currentVertex.changeStrokeWidth(currentVertexState[key]["inner-stroke-width"], currentVertexState[key]["outer-stroke-width"]);
+      }
+      if(currentVertexState[key]["extratext"] != null){
+         currentVertex.changeExtraText(currentVertexState[key]["extratext"]);
       }
 
       currentVertex.redraw(duration);

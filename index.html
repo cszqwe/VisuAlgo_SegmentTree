@@ -34,7 +34,9 @@
 <div id="top-bar">
   <a id="home" href="index.html">Visu<span class="colour">Algo</span></a>
     <span id="title">
-      <a id="title-ST" class="selected-viz">Segment Tree</a>
+      <a id="title-Min" class="selected-viz">Min Segment Tree</a>
+      <a id="title-Max">Max Segment Tree</a>
+      <a id="title-Sum">Sum Segment Tree</a>
     </span>
     <!--a id="fb-login" href="#" target="_blank">Facebook connect</a>
     <span id="trick">
@@ -62,9 +64,7 @@
     <!--put all the extra action pullouts (input) and error messages here-->
       <div class="create action-menu-pullout">
         <div id="create-input" class="new-menu-option"><input type="text" id="v-create" title="Enter an array, empty for random" autocomplete="off" value="" /></div>
-            <div id="create-min" class="execAction coloured-menu-option" onclick=createMinTree()><p>Min</p></div>
-            <div id="create-max" class="execAction coloured-menu-option" onclick=createMaxTree()><p>Max</p></div>
-            <div id="create-sum" class="execAction coloured-menu-option" onclick=createSumTree()><p>Sum</p></div>
+            <div id="create-go" class="execAction coloured-menu-option" onclick=create()><p>Go</p></div>
         </div>
       <div class="rmq action-menu-pullout">
             <div id="rmq-input-l" class="new-menu-option"><input type="text" id="v-rmq-l" title="Enter an integer L" autocomplete="off" value=0 /></div>
@@ -173,42 +173,66 @@
   //this viz-specific code
   var stWidget = new ST();
   var gw = stWidget.getGraphWidget();
-  createMinTree(); 
-  var tree_type=1;//0 for empty tree, 1 for min, 2 for max, 3 for sum 
-    function getCreateData() {
-      var input = $('#v-create').val();
-      if (input == "") {
-	  	//alert("random");
-        vertexAmt = Math.floor((Math.random()*(16-5) + 5));
-        var initArr = [];
-		//alert(vertexAmt);
-        while(initArr.length < vertexAmt) {
-          var random = Math.floor(1+Math.random()*(100-1));
- 		
-          initArr.push(random);
+
+  $('#title-Min').click(function() {
+    if(isPlaying) { stop(); }
+    showActionsPanel();
+    hideStatusPanel();
+    hideCodetracePanel();
+    stWidget.init(getRandomData(), 0);
+  });
+  $('#title-Max').click(function() {
+    if(isPlaying) { stop(); }
+    showActionsPanel();
+    hideStatusPanel();
+    hideCodetracePanel();
+    stWidget.init(getRandomData(), 1);
+  });
+  $('#title-Sum').click(function() {
+    if(isPlaying) { stop(); }
+    showActionsPanel();
+    hideStatusPanel();
+    hideCodetracePanel();
+    stWidget.init(getRandomData(), 2);
+  });
+
+  stWidget.init(getRandomData(), 0);
+
+  function getCreateData() {
+    var input = $('#v-create').val();
+    if (input == "") {
+      vertexAmt = Math.floor((Math.random()*(stWidget.maxVertexAllowed-5) + 5));
+      var initArr = [];
+      while(initArr.length < vertexAmt)
+        initArr.push(Math.floor(1+Math.random()*(stWidget.maxValueAllowed-1)));
+      return initArr;
+    } else {
+      input = input.replace(/\s*/g,"").split(',');
+      for (i in input) {
+        input[i] = Number(input[i]);
+        if (typeof input[i] == "NaN") {
+          alert("Invaild input");
+          return null;
         }
-		console.log(initArr);
-        return initArr;
-      } else {
-        input = input.replace(/\s*/g,"").split(',');
-        for (i in input) {
-          input[i] = Number(input[i]);
-          if (typeof input[i] == "NaN") {
-            alert("Invaild input");
-            return null;
-          }
-        }
-		//alert(input);
-        return input;
       }
+      return input;
     }
-  function createMinTree() {
+  }
+
+  function getRandomData() {
+    vertexAmt = Math.floor((Math.random()*(stWidget.maxVertexAllowed-5) + 5));
+    var initArr = [];
+    while(initArr.length < vertexAmt)
+      initArr.push(Math.floor(1+Math.random()*(stWidget.maxValueAllowed-1)));
+    return initArr;
+  }
+
+  function create() {
     var data;
-	treetype=1;
     if(isPlaying) { stop(); }
     setTimeout( function() {
       if ((mode=="exploration") && ((data = getCreateData()) != null)) {
-        stWidget.generateMin(data);
+        stWidget.create(data);
         $('#current-action').show();
         $('#current-action p').html("Build tree");
         $('#progress-bar').slider( "option", "max", gw.getTotalIteration()-1);
@@ -219,78 +243,24 @@
     }, 500)
   }
 
-  function createMaxTree() {
-    var data;
-	treetype=2;
-    if(isPlaying) { stop(); }
-    setTimeout( function() {
-      if ((mode=="exploration") && ((data = getCreateData()) != null)) {
-        stWidget.generateMax(data);
-        $('#current-action').show();
-        $('#current-action p').html("Build tree");
-        $('#progress-bar').slider( "option", "max", gw.getTotalIteration()-1);
-        closeCreate();
-        triggerRightPanels();
-        isPlaying = true;
-      }
-    }, 500)
-  }
-
-  function createSumTree() {
-    var data;
-	treetype=3;
-    if(isPlaying) { stop(); }
-    setTimeout( function() {
-      if ((mode=="exploration") && ((data = getCreateData()) != null)) {
-        stWidget.generateSum(data);
-        $('#current-action').show();
-        $('#current-action p').html("Build tree");
-        $('#progress-bar').slider( "option", "max", gw.getTotalIteration()-1);
-        closeCreate();
-        triggerRightPanels();
-        isPlaying = true;
-      }
-    }, 500)
-  }
-
-    function rmq(){
+  function rmq(){
     if(isPlaying) { stop(); }
     setTimeout( function() {
       var input_l = $('#v-rmq-l').val();
       var input_r = $('#v-rmq-r').val();
       input_l = parseInt(input_l);
       input_r = parseInt(input_r);
-	  if (treetype==1){
-	      if((mode=="exploration")&&stWidget.rmqMin(input_l, input_r)) {
-    	    $('#current-action').show();
-    	    $('#current-action p').html("Query RMQ in ["+ input_l + ", " + input_r + "]");
-    	    $('#progress-bar').slider( "option", "max", gw.getTotalIteration()-1);
-          closeRMQ();
-    	    	triggerRightPanels();
-    	    	isPlaying = true;
-    	  	}
+	    if((mode=="exploration") && stWidget.rmq(input_l, input_r)) {
+        $('#current-action').show();
+        $('#current-action p').html("Query RMQ in ["+ input_l + ", " + input_r + "]");
+        $('#progress-bar').slider( "option", "max", gw.getTotalIteration()-1);
+        closeRMQ();
+        triggerRightPanels();
+        isPlaying = true;
+    	}
+	  }, 500)
+	}
 
-     }else if (treetype==2){
-	 	 if((mode=="exploration")&&stWidget.rmqMax(input_l, input_r)) {
-    	    $('#current-action').show();
-    	    $('#current-action p').html("Query RMQ in ["+ input_l + ", " + input_r + "]");
-    	    $('#progress-bar').slider( "option", "max", gw.getTotalIteration()-1);
-          closeRMQ();
-    	    	triggerRightPanels();
-    	    	isPlaying = true;
-    	  	}
-	}else if (treetype==3){
-	 	 if((mode=="exploration")&&stWidget.rmqSum(input_l, input_r)) {
-    	    $('#current-action').show();
-    	    $('#current-action p').html("Query RMQ in ["+ input_l + ", " + input_r + "]");
-    	    $('#progress-bar').slider( "option", "max", gw.getTotalIteration()-1);
-          closeRMQ();
-    	    	triggerRightPanels();
-    	    	isPlaying = true;
-    	  	}
-	}
-	    		}, 500)
-	}
   function update(){
     if(isPlaying) { stop(); }
     setTimeout( function() {
@@ -300,36 +270,17 @@
       input_l = parseInt(input_l);
       input_r = parseInt(input_r);
       input_value=parseInt(input_value);
-      if (treetype==1){	
-		if((mode=="exploration")&&stWidget.updateMin(input_l, input_r,input_value)) {
-      	  $('#current-action').show();
-      	  $('#current-action p').html("Query Update in ["+ input_l + ", " + input_r + "]");
-      	  $('#progress-bar').slider( "option", "max", gw.getTotalIteration()-1);
-          closeUpdate();
-      	  triggerRightPanels();
-      	  isPlaying = true;
-      	}
-	  }else if (treetype==2){
-	  	if((mode=="exploration")&&stWidget.updateMax(input_l, input_r,input_value)) {
-      	  $('#current-action').show();
-      	  $('#current-action p').html("Query Update in ["+ input_l + ", " + input_r + "]");
-      	  $('#progress-bar').slider( "option", "max", gw.getTotalIteration()-1);
-          closeUpdate();
-      	  triggerRightPanels();
-      	  isPlaying = true;
-      	}
-	  }else if (treetype==3){
 	  	if((mode=="exploration")&&stWidget.updateSum(input_l, input_r,input_value)) {
-      	  $('#current-action').show();
-      	  $('#current-action p').html("Query Update in ["+ input_l + ", " + input_r + "]");
-      	  $('#progress-bar').slider( "option", "max", gw.getTotalIteration()-1);
-          closeUpdate();
-      	  triggerRightPanels();
-      	  isPlaying = true;
-      	}
-	 }
+        $('#current-action').show();
+        $('#current-action p').html("Query Update in ["+ input_l + ", " + input_r + "]");
+        $('#progress-bar').slider( "option", "max", gw.getTotalIteration()-1);
+        closeUpdate();
+        triggerRightPanels();
+        isPlaying = true;
+      }
     }, 500)
-    }
+  }
+
   //playback controls might fit better in viz.js, but put here in case some viz does not use GraphWidgetNew.js
   var isPaused = false;
   function isAtEnd() {

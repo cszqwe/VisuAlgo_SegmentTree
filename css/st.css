@@ -7,9 +7,7 @@
 		height: 22px;
 		padding: 5px 8px 5px;
 	}
-	#create-min p { padding: 5px 10px 10px; }
-	#create-max p { padding: 5px 10px 10px; }
-	#create-sum p { padding: 5px 10px 10px; }
+	#create-go p { padding: 5px 10px 10px; }
 
 .rmq { bottom: 92px; }
 	#rmq-input-l input {

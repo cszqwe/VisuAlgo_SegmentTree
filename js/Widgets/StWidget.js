@@ -47,17 +47,29 @@ var ST = function(){
     create_empty_tree(nodes);
     function build(root, L, R, animate) {
       if (L == R) {
-        internalSt[root]["value"] = nodes[L];
+        internalSt[root]["value"] = L;
+		
+        internalSt[root]["content"] = nodes[L];
       } else {
         build(root*2, L, Math.floor((L+R)/2), animate);
         build(root*2+1, Math.floor((L+R)/2)+1, R, animate);
         switch (treetype) {
         case 0:
-          internalSt[root]["value"] = Math.min(internalSt[root*2]["value"], internalSt[root*2+1]["value"]);
+          internalSt[root]["content"] = Math.min(internalSt[root*2]["content"], internalSt[root*2+1]["content"]);
+		  if (internalSt[root]["content"]==internalSt[root*2]["content"]){
+			  internalSt[root]["value"]=internalSt[root*2]["value"];
+		  }else{
+			  internalSt[root]["value"]=internalSt[root*2+1]["value"];
+		  }
           break;
         case 1:
-          internalSt[root]["value"] = Math.max(internalSt[root*2]["value"], internalSt[root*2+1]["value"]);
-          break;
+          internalSt[root]["content"] = Math.min(internalSt[root*2]["content"], internalSt[root*2+1]["content"]);
+		  if (internalSt[root]["content"]==internalSt[root*2]["content"]){
+			  internalSt[root]["value"]=internalSt[root*2]["value"];
+		  }else{
+			  internalSt[root]["value"]=internalSt[root*2+1]["value"];
+		  }
+		  break;
         case 2:
           internalSt[root]["value"] = internalSt[root*2]["value"] + internalSt[root*2+1]["value"];
           break;
@@ -80,7 +92,8 @@ var ST = function(){
     function build(root, L, R) {
       vertexTraversed[root] = true;
       if (L == R) {
-        internalSt[root]["value"] = nodes[L];
+		internalSt[root]["content"]=nodes[L];
+        internalSt[root]["value"] = L;
         currentState = createState(internalSt, vertexTraversed, edgeTraversed);
         currentState["lineNo"] = 1;
         currentState["status"] = "Set this to a[" + L + "] = " + nodes[L];
@@ -111,11 +124,21 @@ var ST = function(){
         delete edgeTraversed[root*2+1];
         switch (treetype) {
         case 0:
-          internalSt[root]["value"] = Math.min(internalSt[root*2]["value"], internalSt[root*2+1]["value"]);
+          internalSt[root]["content"] = Math.min(internalSt[root*2]["content"], internalSt[root*2+1]["content"]);
+		  if (internalSt[root]["content"]==internalSt[root*2]["content"]){
+			  internalSt[root]["value"]=internalSt[root*2]["value"];
+		  }else{
+			  internalSt[root]["value"]=internalSt[root*2+1]["value"];
+		  }
           break;
         case 1:
-          internalSt[root]["value"] = Math.max(internalSt[root*2]["value"], internalSt[root*2+1]["value"]);
-          break;
+          internalSt[root]["content"] = Math.min(internalSt[root*2]["content"], internalSt[root*2+1]["content"]);
+		  if (internalSt[root]["content"]==internalSt[root*2]["content"]){
+			  internalSt[root]["value"]=internalSt[root*2]["value"];
+		  }else{
+			  internalSt[root]["value"]=internalSt[root*2+1]["value"];
+		  }
+		  break;
         case 2:
           internalSt[root]["value"] = internalSt[root*2]["value"] + internalSt[root*2+1]["value"];
           break;
@@ -143,13 +166,23 @@ var ST = function(){
     populatePseudocode(0);
     return true;
   }
+  this.rmq=function (L,R){
+	  alert(treetype);
+	  if (treetype==0){
+		  this.rmqMin(L,R);
+	  }else if (treetype==1){
+		  this.rmqMax(L,R);
+	  }else{
+		  this.rmqSum(L,R);
+	  }
+  };
 
   this.rmqMin = function (L, R) {
     var current_min=999;
-  function min(a,b){
-    if (a<b) return a;else return b;
-  }
-  var stateList = [];
+    function min(a,b){
+      if (a<b) return a;else return b;
+    }
+ 	var stateList = [];
     var vertexTraversed = {};
     var edgeTraversed = {};
     var currentState = createState(internalSt);
@@ -159,22 +192,25 @@ var ST = function(){
     stateList.push(currentState);
     function rmq_min(root, x,y,L, R) {
     if (internalSt[root]["lazy"]==true){
-    var middle=(Math.floor((x+y)/2));
-      currentState = createState(internalSt, vertexTraversed, edgeTraversed);
+    	var middle=(Math.floor((x+y)/2));
+      	currentState = createState(internalSt, vertexTraversed, edgeTraversed);
         currentState["lineNo"] = 1;
         currentState["status"] = "This vertex would be lazely updated";
         currentState["vl"][2*root]["state"] = VERTEX_HIGHLIGHTED;
         stateList.push(currentState);
-    internalSt[2*root]["value"]=internalSt[root]["value"];
-    if (x<middle){
-      internalSt[2*root]["lazy"]=true;
-    }
-    currentState = createState(internalSt, vertexTraversed, edgeTraversed);
+    	internalSt[2*root]["content"]=internalSt[root]["content"];
+		internalSt[2*root]["value"]=L;
+    	if (x<middle){
+      		internalSt[2*root]["lazy"]=true;
+    	}
+    	currentState = createState(internalSt, vertexTraversed, edgeTraversed);
         currentState["lineNo"] = 1;
         currentState["status"] = "This vertex would be lazely updated";
         currentState["vl"][2*root+1]["state"] = VERTEX_HIGHLIGHTED;
         stateList.push(currentState);
-    internalSt[2*root+1]["value"]=internalSt[root]["value"];
+    internalSt[2*root+1]["content"]=internalSt[root]["content"];
+    internalSt[2*root+1]["value"]=R;
+
     if (middle+1<y){
       internalSt[2*root+1]["lazy"]=true;
     }
@@ -234,7 +270,7 @@ var ST = function(){
     stateList.push(currentState);
     graphWidget.startAnimation(stateList);
     populatePseudocode(1);
-  alert(current_min);
+    alert(current_min);
     return true;  
   }
 
@@ -259,8 +295,9 @@ var ST = function(){
         currentState["status"] = "This vertex would be lazely updated";
         currentState["vl"][2*root]["state"] = VERTEX_HIGHLIGHTED;
         stateList.push(currentState);
-    internalSt[2*root]["value"]=internalSt[root]["value"];
-    if (x<middle){
+    internalSt[2*root]["content"]=internalSt[root]["content"];
+    internalSt[2*root]["value"]=L;
+	if (x<middle){
       internalSt[2*root]["lazy"]=true;
     }
     currentState = createState(internalSt, vertexTraversed, edgeTraversed);
@@ -268,8 +305,9 @@ var ST = function(){
         currentState["status"] = "This vertex would be lazely updated";
         currentState["vl"][2*root+1]["state"] = VERTEX_HIGHLIGHTED;
         stateList.push(currentState);
-    internalSt[2*root+1]["value"]=internalSt[root]["value"];
-    if (middle+1<y){
+    internalSt[2*root+1]["content"]=internalSt[root]["content"];
+	internalSt[2*root+1]["value"]=R;
+	if (middle+1<y){
       internalSt[2*root+1]["lazy"]=true;
     }
     internalSt[root]["lazy"]=false;
@@ -423,7 +461,16 @@ var ST = function(){
     return true;  
   }
 
-
+  this.update=function (L,R,value){
+	  alert(treetype);
+ 	  if (treetype==0){
+		  this.updateMin(L,R);
+	  }else if (treetype==1){
+		  this.updateMax(L,R);
+	  }else{
+		  this.updateSum(L,R);
+	  }
+  }
   this.updateMin = function (L, R,value) {
     var current_min=999;
     function min(a,b){
@@ -438,32 +485,37 @@ var ST = function(){
     currentState["lineNo"] = 0;
     stateList.push(currentState);
     function update(root, x,y,L, R,value) {
-      if (internalSt[root]["lazy"]==true){
-      var middle=(Math.floor((x+y)/2));
-      currentState = createState(internalSt, vertexTraversed, edgeTraversed);
-      currentState["lineNo"] = 1;
-      currentState["status"] = "This vertex would be lazely updated";
-      currentState["vl"][2*root]["state"] = VERTEX_HIGHLIGHTED;
-      stateList.push(currentState);
-      internalSt[2*root]["value"]=internalSt[root]["value"];
-      if (x<middle){
-        internalSt[2*root]["lazy"]=true;
-      }
-      currentState = createState(internalSt, vertexTraversed, edgeTraversed);
-          currentState["lineNo"] = 1;
-          currentState["status"] = "This vertex would be lazely updated";
-          currentState["vl"][2*root+1]["state"] = VERTEX_HIGHLIGHTED;
-          stateList.push(currentState);
-      internalSt[2*root+1]["value"]=internalSt[root]["value"];
-      if (middle+1<y){
-        internalSt[2*root+1]["lazy"]=true;
-      }
-      internalSt[root]["lazy"]=false;
-      }
+          if (internalSt[root]["lazy"]==true){
+    	var middle=(Math.floor((x+y)/2));
+      	currentState = createState(internalSt, vertexTraversed, edgeTraversed);
+        currentState["lineNo"] = 1;
+        currentState["status"] = "This vertex would be lazely updated";
+        currentState["vl"][2*root]["state"] = VERTEX_HIGHLIGHTED;
+        stateList.push(currentState);
+    	internalSt[2*root]["content"]=internalSt[root]["content"];
+		internalSt[2*root]["value"]=L;
+    	if (x<middle){
+      		internalSt[2*root]["lazy"]=true;
+    	}
+    	currentState = createState(internalSt, vertexTraversed, edgeTraversed);
+        currentState["lineNo"] = 1;
+        currentState["status"] = "This vertex would be lazely updated";
+        currentState["vl"][2*root+1]["state"] = VERTEX_HIGHLIGHTED;
+        stateList.push(currentState);
+    internalSt[2*root+1]["content"]=internalSt[root]["content"];
+    internalSt[2*root+1]["value"]=R;
+
+    if (middle+1<y){
+      internalSt[2*root+1]["lazy"]=true;
+    }
+    internalSt[root]["lazy"]=false;
+    }
+
 
       vertexTraversed[root] = true;
       if ((x>=L) && (y<=R)) {
-        internalSt[root]["value"]=value;
+        internalSt[root]["content"]=value;
+		internalSt[root]["value"]=L;
         currentState = createState(internalSt, vertexTraversed, edgeTraversed);
         currentState["lineNo"] = 1;
         currentState["status"] = "This vertex would be updated";
@@ -504,7 +556,12 @@ var ST = function(){
           delete vertexTraversed[root*2+1];
           delete edgeTraversed[root*2+1];
         }
-        internalSt[root]["value"]=min(internalSt[root*2]["value"], internalSt[root*2+1]["value"]);
+          internalSt[root]["content"] = Math.min(internalSt[root*2]["content"], internalSt[root*2+1]["content"]);
+		  if (internalSt[root]["content"]==internalSt[root*2]["content"]){
+			  internalSt[root]["value"]=internalSt[root*2]["value"];
+		  }else{
+			  internalSt[root]["value"]=internalSt[root*2+1]["value"];
+		  }
         currentState = createState(internalSt, vertexTraversed, edgeTraversed);
         currentState["lineNo"] = 5;
         currentState["status"] = "Finish the update in this interval";
@@ -540,23 +597,26 @@ var ST = function(){
     stateList.push(currentState);
     function update(root, x,y,L, R,value) {
     
-    if (internalSt[root]["lazy"]==true){
-    var middle=(Math.floor((x+y)/2));
-      currentState = createState(internalSt, vertexTraversed, edgeTraversed);
+         if (internalSt[root]["lazy"]==true){
+    	var middle=(Math.floor((x+y)/2));
+      	currentState = createState(internalSt, vertexTraversed, edgeTraversed);
         currentState["lineNo"] = 1;
         currentState["status"] = "This vertex would be lazely updated";
         currentState["vl"][2*root]["state"] = VERTEX_HIGHLIGHTED;
         stateList.push(currentState);
-    internalSt[2*root]["value"]=internalSt[root]["value"];
-    if (x<middle){
-      internalSt[2*root]["lazy"]=true;
-    }
-    currentState = createState(internalSt, vertexTraversed, edgeTraversed);
+    	internalSt[2*root]["content"]=internalSt[root]["content"];
+		internalSt[2*root]["value"]=L;
+    	if (x<middle){
+      		internalSt[2*root]["lazy"]=true;
+    	}
+    	currentState = createState(internalSt, vertexTraversed, edgeTraversed);
         currentState["lineNo"] = 1;
         currentState["status"] = "This vertex would be lazely updated";
         currentState["vl"][2*root+1]["state"] = VERTEX_HIGHLIGHTED;
         stateList.push(currentState);
-    internalSt[2*root+1]["value"]=internalSt[root]["value"];
+    internalSt[2*root+1]["content"]=internalSt[root]["content"];
+    internalSt[2*root+1]["value"]=R;
+
     if (middle+1<y){
       internalSt[2*root+1]["lazy"]=true;
     }
@@ -564,10 +624,12 @@ var ST = function(){
     }
 
 
+
       vertexTraversed[root] = true;
       if ((x>=L) && (y<=R)) {
-    internalSt[root]["value"]=value;
-        currentState = createState(internalSt, vertexTraversed, edgeTraversed);
+    	internalSt[root]["content"]=value;
+        internalSt[root]["value"]=L;
+		currentState = createState(internalSt, vertexTraversed, edgeTraversed);
         currentState["lineNo"] = 1;
         currentState["status"] = "This vertex would be updated";
         currentState["vl"][root]["state"] = VERTEX_HIGHLIGHTED;
@@ -607,7 +669,13 @@ var ST = function(){
           delete edgeTraversed[root*2+1];
     }
     
-    internalSt[root]["value"]=max(internalSt[root*2]["value"], internalSt[root*2+1]["value"]);
+          internalSt[root]["content"] = Math.min(internalSt[root*2]["content"], internalSt[root*2+1]["content"]);
+		  if (internalSt[root]["content"]==internalSt[root*2]["content"]){
+			  internalSt[root]["value"]=internalSt[root*2]["value"];
+		  }else{
+			  internalSt[root]["value"]=internalSt[root*2+1]["value"];
+		  }
+
 
         currentState = createState(internalSt, vertexTraversed, edgeTraversed);
         currentState["lineNo"] = 5;

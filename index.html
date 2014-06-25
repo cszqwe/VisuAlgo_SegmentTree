@@ -270,7 +270,7 @@
       input_l = parseInt(input_l);
       input_r = parseInt(input_r);
       input_value=parseInt(input_value);
-	  	if((mode=="exploration")&&stWidget.updateSum(input_l, input_r,input_value)) {
+	  	if((mode=="exploration")&&stWidget.update(input_l, input_r,input_value)) {
         $('#current-action').show();
         $('#current-action p').html("Query Update in ["+ input_l + ", " + input_r + "]");
         $('#progress-bar').slider( "option", "max", gw.getTotalIteration()-1);

@@ -71,4 +71,22 @@ $( document ).ready(function() {
 		closeRMQ();
 		openUpdate();
 	})
+
+	//tutorial mode
+	$('#st-tutorial-2 .tutorial-next').click(function() {
+		showActionsPanel();
+	});
+	$('#st-tutorial-3 .tutorial-next').click(function() {
+		hideEntireActionsPanel();
+	});
+	$('#st-tutorial-4 .tutorial-next').click(function() {
+		showStatusPanel();
+	});
+	$('#st-tutorial-5 .tutorial-next').click(function() {
+		hideStatusPanel();
+		showCodetracePanel();
+	});
+	$('#st-tutorial-6 .tutorial-next').click(function() {
+		hideCodetracePanel();
+	});
 });

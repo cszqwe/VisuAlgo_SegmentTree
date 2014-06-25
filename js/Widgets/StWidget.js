@@ -357,8 +357,6 @@ var ST = function(){
     return true;  
   }
 
-
-
   function create_empty_tree(nodes){
     clearScreen();
 
@@ -549,96 +547,33 @@ var ST = function(){
   
   function populatePseudocode(act) {
     switch (act) {
-      case 0: // Build
-        document.getElementById('code1').innerHTML = 'if L == R then this = L';
-        document.getElementById('code2').innerHTML = 'else';
-        document.getElementById('code3').innerHTML = '&nbspbuild left_child, L, (L+R)/2';
-        document.getElementById('code4').innerHTML = '&nbspbuild right_child, (L+R)/2+1, R';
-        document.getElementById('code5').innerHTML = '&nbspthis='+treefuncname+'(left_child, right_child)';
-        document.getElementById('code6').innerHTML = '';
-        document.getElementById('code7').innerHTML = '';
-        break;
+    case 0: // Build
+      document.getElementById('code1').innerHTML = 'if L == R then this = L';
+      document.getElementById('code2').innerHTML = 'else';
+      document.getElementById('code3').innerHTML = '&nbspbuild left_child, L, (L+R)/2';
+      document.getElementById('code4').innerHTML = '&nbspbuild right_child, (L+R)/2+1, R';
+      document.getElementById('code5').innerHTML = '&nbspthis='+treefuncname+'(left_child, right_child)';
+      document.getElementById('code6').innerHTML = '';
+      document.getElementById('code7').innerHTML = '';
+      break;
     case 1: // RMQ
-        document.getElementById('code1').innerHTML = 'if this have lazy flag then return this';
-        document.getElementById('code2').innerHTML = 'else if L<=x<=y<=R then return this';
-        document.getElementById('code3').innerHTML = 'else';
-        document.getElementById('code4').innerHTML = '&nbspRMQ at left_child, L, (L+R)/2';
-        document.getElementById('code5').innerHTML = '&nbspRMQ at right_child, (L+R)/2+1, R';
-        document.getElementById('code6').innerHTML = '&nbspreturn '+treefuncname+'(left, right)';
-        document.getElementById('code7').innerHTML = '';
-        break;
+      document.getElementById('code1').innerHTML = 'if this have lazy flag then return this';
+      document.getElementById('code2').innerHTML = 'else if L<=x<=y<=R then return this';
+      document.getElementById('code3').innerHTML = 'else';
+      document.getElementById('code4').innerHTML = '&nbspRMQ at left_child, L, (L+R)/2';
+      document.getElementById('code5').innerHTML = '&nbspRMQ at right_child, (L+R)/2+1, R';
+      document.getElementById('code6').innerHTML = '&nbspreturn '+treefuncname+'(left, right)';
+      document.getElementById('code7').innerHTML = '';
+      break;
     case 2: // update
-        document.getElementById('code1').innerHTML = 'if L<=x<=y<=R then update this';
-        document.getElementById('code2').innerHTML = 'else';
-        document.getElementById('code3').innerHTML = '&nbsppass on lazy flag';
-        document.getElementById('code4').innerHTML = '&nbspupdate at left_child, L, (L+R)/2';
-        document.getElementById('code5').innerHTML = '&nbspupdate at right_child, (L+R)/2+1, R';
-        document.getElementById('code6').innerHTML = '&nbspupdate this=' + treefuncname + '(left, right)';
-        document.getElementById('code7').innerHTML = '';
-        break;
-    case 3: // in-order traversal
-        document.getElementById('code1').innerHTML = 'if this is null';
-        document.getElementById('code2').innerHTML = '&nbsp;&nbsp;return';
-        document.getElementById('code3').innerHTML = 'inOrder(left)';
-        document.getElementById('code4').innerHTML = 'visit this, then inOrder(right)';
-        document.getElementById('code5').innerHTML = '';
-        document.getElementById('code6').innerHTML = '';
-        document.getElementById('code7').innerHTML = '';
-        break;
-    case 4: // search
-        document.getElementById('code1').innerHTML = 'if this == null';
-        document.getElementById('code2').innerHTML = '&nbsp;&nbsp;return null';
-        document.getElementById('code3').innerHTML = 'else if this key == search value';
-        document.getElementById('code4').innerHTML = '&nbsp;&nbsp;return this';
-        document.getElementById('code5').innerHTML = 'else if this key < search value';
-        document.getElementById('code6').innerHTML = '&nbsp;&nbsp;search right';
-        document.getElementById('code7').innerHTML = 'else search left';
-        break;
-    case 5: // remove
-        document.getElementById('code1').innerHTML = 'search for v';
-        document.getElementById('code2').innerHTML = 'if v is a leaf';
-        document.getElementById('code3').innerHTML = '&nbsp;&nbsp;delete leaf v';
-        document.getElementById('code4').innerHTML = 'else if v has 1 child';
-        document.getElementById('code5').innerHTML = '&nbsp;&nbsp;bypass v';
-        document.getElementById('code6').innerHTML = 'else replace v with successor';
-        document.getElementById('code7').innerHTML = '';
-        break;
-    case 6: // insert with rotations
-        document.getElementById('code1').innerHTML = 'insert v';
-        document.getElementById('code2').innerHTML = 'check balance factor of this and its children';
-        document.getElementById('code3').innerHTML = '&nbsp;&nbsp;case1: this.rotateRight';
-        document.getElementById('code4').innerHTML = '&nbsp;&nbsp;case2: this.left.rotateLeft, this.rotateRight';
-        document.getElementById('code5').innerHTML = '&nbsp;&nbsp;case3: this.rotateLeft';
-        document.getElementById('code6').innerHTML = '&nbsp;&nbsp;case4: this.right.rotateRight, this.rotateLeft';
-        document.getElementById('code7').innerHTML = '&nbsp;&nbsp;this is balanced';
-        break;
-    case 7: // remove with rotations
-        document.getElementById('code1').innerHTML = 'remove v';
-        document.getElementById('code2').innerHTML = 'check balance factor of this and its children';
-        document.getElementById('code3').innerHTML = '&nbsp;&nbsp;case1: this.rotateRight';
-        document.getElementById('code4').innerHTML = '&nbsp;&nbsp;case2: this.left.rotateLeft, this.rotateRight';
-        document.getElementById('code5').innerHTML = '&nbsp;&nbsp;case3: this.rotateLeft';
-        document.getElementById('code6').innerHTML = '&nbsp;&nbsp;case4: this.right.rotateRight, this.rotateLeft';
-        document.getElementById('code7').innerHTML = '&nbsp;&nbsp;this is balanced';
-        break;
-    case 8: // successor
-        document.getElementById('code1').innerHTML = 'if this.right != null return findMin(this.right)';
-        document.getElementById('code2').innerHTML = 'else';
-        document.getElementById('code3').innerHTML = '&nbsp;&nbsp;p = this.parent, T = this';
-        document.getElementById('code4').innerHTML = '&nbsp;&nbsp;while(p != null && T == p.right)';
-        document.getElementById('code5').innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;T = p, p = T.parent';
-        document.getElementById('code6').innerHTML = '&nbsp;&nbsp;if p is null return -1';
-        document.getElementById('code7').innerHTML = '&nbsp;&nbsp;else return p';
-        break;
-    case 9: // predecessor
-        document.getElementById('code1').innerHTML = 'if this.left != null return findMax(this.left)';
-        document.getElementById('code2').innerHTML = 'else';
-        document.getElementById('code3').innerHTML = '&nbsp;&nbsp;p = this.parent, T = this';
-        document.getElementById('code4').innerHTML = '&nbsp;&nbsp;while(p != null && T == p.left)';
-        document.getElementById('code5').innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;T = p, p = T.parent';
-        document.getElementById('code6').innerHTML = '&nbsp;&nbsp;if p is null return -1';
-        document.getElementById('code7').innerHTML = '&nbsp;&nbsp;else return p';
-        break;
+      document.getElementById('code1').innerHTML = 'if L<=x<=y<=R then update this';
+      document.getElementById('code2').innerHTML = 'else';
+      document.getElementById('code3').innerHTML = '&nbsppass on lazy flag';
+      document.getElementById('code4').innerHTML = '&nbspupdate at left_child, L, (L+R)/2';
+      document.getElementById('code5').innerHTML = '&nbspupdate at right_child, (L+R)/2+1, R';
+      document.getElementById('code6').innerHTML = '&nbspupdate this=' + treefuncname + '(left, right)';
+      document.getElementById('code7').innerHTML = '';
+      break;
     }
   }
 }

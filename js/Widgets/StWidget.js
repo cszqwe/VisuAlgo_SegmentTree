@@ -413,6 +413,7 @@ var ST = function(){
 
   function create_empty_tree(nodes){
     clearScreen();
+    vertexMax = Math.pow(2,Math.ceil(Math.log(nodes.length)/Math.log(2))+1);
 
     function helper(parent, root, L, R) {
       if (L == R) {
@@ -584,9 +585,9 @@ var ST = function(){
           xAxisOffset /= 2;
         }
 
-        if(isLeft)
+        if(isLeft) {
           internalSt[currentVertex]["cx"] = internalSt[parentVertex]["cx"] - xAxisOffset;
-        else
+        } else
           internalSt[currentVertex]["cx"] = internalSt[parentVertex]["cx"] + xAxisOffset;
       }
 

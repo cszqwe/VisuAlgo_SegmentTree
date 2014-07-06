@@ -35,7 +35,7 @@ const graphVertexProperties = {
       "stroke": "#fff"
     },
     "leaf-lazy":{
-      "#fill": "#ff0",
+      "fill": "#ff0",
       "stroke": "#fff"
     },
     "normal_blue":{

@@ -272,9 +272,9 @@ var ST = function(){
           currentState["status"] = "return " + treefuncname + "(" + left + "," + right + ") = " + ans;
         } 
         currentState["vl"][root]["state"] = VERTEX_HIGHLIGHTED;
-        if (left && (treetype != 2))
+        if ((left!=null) && (treetype != 2))
           currentState["vl"][vertexMax+left]["state"] = VERTEX_HIGHLIGHTED;
-        if (right && (treetype != 2))
+        if ((right!=null) && (treetype != 2))
           currentState["vl"][vertexMax+right]["state"] = VERTEX_HIGHLIGHTED;
         stateList.push(currentState);
       }
@@ -282,7 +282,7 @@ var ST = function(){
       return ans;
     }
     var ans = rmq(1, 0, vertexAmt-1,L,R);
-    currentState = createState(internalSt);
+    currentState = createState(internalSt, vertexTraversed, edgeTraversed);
     currentState["lineNo"] = 0;
     currentState["status"] = "Finish, answer = " + ans;
     stateList.push(currentState);
@@ -301,6 +301,7 @@ var ST = function(){
     currentState["lineNo"] = 0;
     stateList.push(currentState);
     function update(root, x,y,L, R,value) {
+      vertexTraversed[root] = true;
       if ((L<=x) && (y<=R)) {
         if (x == y) {
           internalSt[vertexMax+x]["value"] = value;
@@ -357,20 +358,26 @@ var ST = function(){
           }
         }
         if (L<=Math.floor((x+y)/2)) {
+          edgeTraversed[root*2] = true;
           currentState = createState(internalSt, vertexTraversed, edgeTraversed);
+          currentState["el"][root*2]["animateHighlighted"] = true;
+          currentState["el"][root*2]["state"] = EDGE_TRAVERSED;
           currentState["lineNo"] = 4;
           currentState["status"] = "update at left_child, L, (L+R)/2";
-          currentState["vl"][root*2]["state"] = VERTEX_HIGHLIGHTED;
           stateList.push(currentState);
           update(root*2,x,Math.floor((x+y)/2),L,R,value);
+          delete edgeTraversed[root*2];
         }
         if (Math.floor((x+y)/2+1)<=R) {
+          edgeTraversed[root*2+1] = true;
           currentState = createState(internalSt, vertexTraversed, edgeTraversed);
+          currentState["el"][root*2+1]["animateHighlighted"] = true;
+          currentState["el"][root*2+1]["state"] = EDGE_TRAVERSED;
           currentState["lineNo"] = 5;
           currentState["status"] = "update at right_child, (L+R)/2+1, R";
-          currentState["vl"][root*2+1]["state"] = VERTEX_HIGHLIGHTED;
           stateList.push(currentState);
           update(root*2+1,Math.floor((x+y)/2+1),y,L,R,value);
+          delete edgeTraversed[root*2+1];
         }
         internalSt[root]["value"] = treefunc(internalSt[root*2]["value"], internalSt[root*2+1]["value"]);
         currentState = createState(internalSt, vertexTraversed, edgeTraversed);
@@ -392,10 +399,11 @@ var ST = function(){
         }
         stateList.push(currentState);
       }
+      delete vertexTraversed[root];
     }
     
     update(1, 0, vertexAmt-1,L,R,value);
-    currentState = createState(internalSt);
+    currentState = createState(internalSt, vertexTraversed, edgeTraversed);
     currentState["status"] = "Finish";
     stateList.push(currentState);
     graphWidget.startAnimation(stateList);

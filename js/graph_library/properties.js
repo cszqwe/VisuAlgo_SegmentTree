@@ -26,8 +26,16 @@ const graphVertexProperties = {
       "fill": "#eee",
       "stroke": "#fff"
     },
+    "leaf-default":{
+      "fill": "#ff0",
+      "stroke": "#fff"
+    },
     "lazy":{
       "fill": "#eee",
+      "stroke": "#fff"
+    },
+    "leaf-lazy":{
+      "#fill": "#ff0",
       "stroke": "#fff"
     },
     "normal_blue":{
@@ -108,7 +116,15 @@ const graphVertexProperties = {
       "fill": "#333",
       "stroke": "#333"
     },
+    "leaf-default":{
+      "fill": "#333",
+      "stroke": "#333"
+    },
     "lazy":{
+      "fill": "#8b00ff",
+      "stroke": "#8b00ff"
+    },
+    "leaf-lazy":{
       "fill": "#8b00ff",
       "stroke": "#8b00ff"
     },
@@ -189,7 +205,19 @@ const graphVertexProperties = {
       "font-weight": "bold",
       "text-anchor": "middle"
     },
+    "leaf-default":{
+      "fill": "#333",
+      "font-family": "'PT Sans', sans-serif",
+      "font-weight": "bold",
+      "text-anchor": "middle"
+    },
     "lazy":{
+      "fill": "#333",
+      "font-family": "'PT Sans', sans-serif",
+      "font-weight": "bold",
+      "text-anchor": "middle"
+    },
+    "leaf-lazy":{
       "fill": "#333",
       "font-family": "'PT Sans', sans-serif",
       "font-weight": "bold",

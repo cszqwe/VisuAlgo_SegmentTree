@@ -51,6 +51,7 @@ function closeUpdate() {
 function hideEntireActionsPanel() {
 	closeCreate();
 	closeRMQ();
+	closeUpdate();
 	hideActionsPanel();
 }
 

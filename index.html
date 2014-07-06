@@ -56,34 +56,48 @@
     
     <div id="actions" class="panel">
       <p id="create" class="execAction">Create</p>
-        <p id="rmq" class="execAction">RMQ</p>
-    <p id="update" class="execAction">Update</p>
+      <p id="rmq" class="execAction">RMQ</p>
+      <p id="update" class="execAction">Update</p>
     </div>
     <div id="actions-hide" class="panel-hide"><img src="img/arrow_white_right.png" title="show/hide actions panel"/></div>
     <div id="actions-extras">
     <!--put all the extra action pullouts (input) and error messages here-->
-        <div class="create action-menu-pullout">
-			 <div id="create-input" class="new-menu-option"><input type="text" id="v-create" title="Enter an array, empty for random" autocomplete="off" value="1,2,3" /></div>
-            <div id="create-go" class="execAction coloured-menu-option" onclick=create()><p>Go</p></div>
-			<div id="create-random" class="execAction coloured-menu-option" onClick=randomm()><p>Random</p></div>
-    		<div id="create-random-sorted" class="execAction coloured-menu-option" onClick=randomLL()><p>Random Sorted</p></div>
-        	
-		</div>
+      <div class="create action-menu-pullout">
+        <div id="create-input" class="new-menu-option"><input type="text" id="v-create" title="Enter an array, empty for random" autocomplete="off" value="1,2,3" /></div>
+        <div id="create-go" class="execAction coloured-menu-option" onclick=create()><p>Go</p></div>
+        <div id="create-random" class="execAction coloured-menu-option" onClick=randomm()><p>Random</p></div>
+        <div id="create-random-sorted" class="execAction coloured-menu-option" onClick=randomLL()><p>Random Sorted</p></div>      
+      </div>
       <div class="rmq action-menu-pullout">
-            <div id="rmq-input-l" class="new-menu-option"><input type="text" id="v-rmq-l" title="Enter an integer L" autocomplete="off" value=0 /></div>
-            <div id="rmq-input-r" class="new-menu-option"><input type="text" id="v-rmq-r" title="Enter an integer R" autocomplete="off" value=6 /></div>
-            <div id="rmq-go" class="execAction coloured-menu-option" onclick=rmq()><p>GO</p></div>
-            <div id="rmq-err" class="err"></div>
+        <div id="rmq-input-l" class="new-menu-option">
+          <div class="remind coloured-menu-option">Enter L:</div>
+          <input type="text" id="v-rmq-l" title="Enter an integer L" autocomplete="off" value=0 />
         </div>
-    <div class="update action-menu-pullout">
-            <div id="update-input-l" class="new-menu-option"><input type="text" id="v-update-l" title="Enter an integer L" autocomplete="off" value=0 /></div>
-            <div id="update-input-r" class="new-menu-option"><input type="text" id="v-update-r" title="Enter an integer R" autocomplete="off" value=6 /></div>
-      <div id="update-input-value" class="new-menu-option"><input type="text" id="v-update-value" title="Enter an integer R" autocomplete="off" value=6 /></div>
-            <div id="update-go" class="execAction coloured-menu-option" onclick=update()><p>GO</p></div>
-            <div id="update-err" class="err"></div>
+        <div id="rmq-input-r" class="new-menu-option">
+          <div class="remind coloured-menu-option">Enter R:</div>
+          <input type="text" id="v-rmq-r" title="Enter an integer R" autocomplete="off" value=6 />
         </div>
+        <div id="rmq-go" class="execAction coloured-menu-option" onclick=rmq()><p>GO</p></div>
+        <div id="rmq-err" class="err"></div>
+      </div>
+      <div class="update action-menu-pullout">
+        <div id="update-input-l" class="new-menu-option">
+          <div class="remind coloured-menu-option">Enter L:</div>
+          <input type="text" id="v-update-l" title="Enter an integer L" autocomplete="off" value=0 />
+        </div>
+        <div id="update-input-r" class="new-menu-option">
+          <div class="remind coloured-menu-option">Enter R:</div>
+          <input type="text" id="v-update-r" title="Enter an integer R" autocomplete="off" value=6 />
+        </div>
+        <div id="update-input-value" class="new-menu-option">
+          <div class="remind coloured-menu-option">Enter VALUE:</div>
+          <input type="text" id="v-update-value" title="Enter an integer VALUE" autocomplete="off" value=6 />
+        </div>
+        <div id="update-go" class="execAction coloured-menu-option" onclick=update()><p>GO</p></div>
+        <div id="update-err" class="err"></div>
+      </div>
     </div>
-    
+
     <div id="status" class="panel"><p></p></div>
     <div id="status-hide" class="panel-hide"><img src="img/arrow_white_right.png" title="show/hide status panel"/></div>
     
@@ -202,9 +216,6 @@
 
   stWidget.init(getRandomData(), 0);
 
-
-
-
   function getCreateData() {
     var input = $('#v-create').val();
     if (input == "") {
@@ -252,7 +263,7 @@
 
   function randomm(){
     if(isPlaying) { stop(); }
-	  vertexAmt = Math.floor((Math.random()*(stWidget.maxVertexAllowed-5) + 5));
+    vertexAmt = Math.floor((Math.random()*(stWidget.maxVertexAllowed-5) + 5));
     var initArr = [];
     while(initArr.length < vertexAmt)
       initArr.push(Math.floor(1+Math.random()*(stWidget.maxValueAllowed-1)));
@@ -271,21 +282,21 @@
   
   function randomLL(){
     if(isPlaying) { stop(); }
-	  vertexAmt = Math.floor((Math.random()*(stWidget.maxVertexAllowed-5) + 5));
+    vertexAmt = Math.floor((Math.random()*(stWidget.maxVertexAllowed-5) + 5));
     var initArr = [];
     while(initArr.length < vertexAmt)
       initArr.push(Math.floor(1+Math.random()*(stWidget.maxValueAllowed-1)));
-	  var i=0;
-	  var j=0;
-	  for (i=0;i<vertexAmt;i++){
-	  	for (j=i+1;j<vertexAmt;j++){
-	  		if (initArr[i]>initArr[j]){
-  				var k=initArr[i];
-  				initArr[i]=initArr[j];
-  				initArr[j]=k;
-  			}
-  		}
-	  }
+    var i=0;
+    var j=0;
+    for (i=0;i<vertexAmt;i++){
+      for (j=i+1;j<vertexAmt;j++){
+        if (initArr[i]>initArr[j]){
+          var k=initArr[i];
+          initArr[i]=initArr[j];
+          initArr[j]=k;
+        }
+      }
+    }
     setTimeout( function() {
       if ((mode=="exploration") && ((data = initArr) != null)) {
         stWidget.create(data);
@@ -306,16 +317,16 @@
       var input_r = $('#v-rmq-r').val();
       input_l = parseInt(input_l);
       input_r = parseInt(input_r);
-	    if((mode=="exploration") && stWidget.rmq(input_l, input_r)) {
+      if((mode=="exploration") && stWidget.rmq(input_l, input_r)) {
         $('#current-action').show();
         $('#current-action p').html("Query RMQ in ["+ input_l + ", " + input_r + "]");
         $('#progress-bar').slider( "option", "max", gw.getTotalIteration()-1);
         closeRMQ();
         triggerRightPanels();
         isPlaying = true;
-    	}
-	  }, 500);
-	}
+      }
+    }, 500);
+  }
 
   function update(){
     if(isPlaying) { stop(); }
@@ -326,7 +337,7 @@
       input_l = parseInt(input_l);
       input_r = parseInt(input_r);
       input_value=parseInt(input_value);
-	  	if((mode=="exploration")&&stWidget.update(input_l, input_r,input_value)) {
+      if((mode=="exploration")&&stWidget.update(input_l, input_r,input_value)) {
         $('#current-action').show();
         $('#current-action p').html("Query Update in ["+ input_l + ", " + input_r + "]");
         $('#progress-bar').slider( "option", "max", gw.getTotalIteration()-1);

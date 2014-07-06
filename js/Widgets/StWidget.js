@@ -95,6 +95,13 @@ var ST = function(){
     }
     build(1, 0, vertexAmt-1, false);
     display_tree(vertexAmt);
+
+    var stateList = [];
+    var currentState = null;
+    currentState = createState(internalSt, {}, {});
+    stateList.push(currentState);
+    graphWidget.startAnimation(stateList);
+    graphWidget.stop();
     return true;
   }
   this.create = function(nodes){
@@ -150,6 +157,8 @@ var ST = function(){
         currentState["lineNo"] = 5;
         currentState["status"] = "Set this to " + treefuncname + "(" + internalSt[root*2]["value"] + ", " + internalSt[root*2+1]["value"] + ") = " + internalSt[root]["value"];
         currentState["vl"][root]["state"] = VERTEX_HIGHLIGHTED;
+        currentState["vl"][vertexMax+internalSt[root*2]["value"]]["state"] = VERTEX_HIGHLIGHTED;
+        currentState["vl"][vertexMax+internalSt[root*2+1]["value"]]["state"] = VERTEX_HIGHLIGHTED;
         stateList.push(currentState);
       }
       delete vertexTraversed[root];
@@ -243,6 +252,10 @@ var ST = function(){
         ans = treefunc(left, right);
         currentState["status"] = "return " + treefuncname + "(" + left + "," + right + ") = " + ans;
         currentState["vl"][root]["state"] = VERTEX_HIGHLIGHTED;
+        if (left)
+          currentState["vl"][vertexMax+left]["state"] = VERTEX_HIGHLIGHTED;
+        if (right)
+          currentState["vl"][vertexMax+right]["state"] = VERTEX_HIGHLIGHTED;
         stateList.push(currentState);
       }
       delete vertexTraversed[root];
@@ -344,6 +357,8 @@ var ST = function(){
         currentState["lineNo"] = 6;
         currentState["status"] = "this=" + treefuncname + "(" + internalSt[root*2]["value"] + "," + internalSt[root*2+1]["value"] + ")" + "=" + internalSt[root]["value"];
         currentState["vl"][root]["state"] = VERTEX_HIGHLIGHTED;
+        currentState["vl"][internalSt[root*2]["value"]]["state"] = VERTEX_HIGHLIGHTED;
+        currentState["vl"][internalSt[root*2+1]["value"]]["state"] = VERTEX_HIGHLIGHTED;
         stateList.push(currentState);
       }
     }
@@ -369,6 +384,7 @@ var ST = function(){
           "value": '?',
           "extratext": "[" + L + "," + R + "]",
           "lazy": false,
+          "leaf": "",
           "L": L,
           "R": R
         };
@@ -377,8 +393,9 @@ var ST = function(){
           "leftChild": null,
           "rightChild": null,
           "value": nodes[L],
-          "extratext": "",
-          "lazy": false
+          "extratext": L,
+          "lazy": false,
+          "leaf": "leaf-"
         };
       } else {
         internalSt[root] = {
@@ -388,6 +405,7 @@ var ST = function(){
           "value": '?',
           "extratext": "[" + L + "," + R + "]",
           "lazy": false,
+          "leaf": "",
           "L": L,
           "R": R
         };
@@ -473,9 +491,9 @@ var ST = function(){
       state["vl"][key]["text"] = internalStObject[key]["value"];
       state["vl"][key]["extratext"] = internalStObject[key]["extratext"];
       if (internalStObject[key]["lazy"])
-        state["vl"][key]["state"] = "lazy";
+          state["vl"][key]["state"] = internalStObject[key]["leaf"] + "lazy";
       else
-        state["vl"][key]["state"] = VERTEX_DEFAULT;
+          state["vl"][key]["state"] = internalStObject[key]["leaf"] + VERTEX_DEFAULT;
 
       if(internalStObject[key]["parent"] == null) continue;
 

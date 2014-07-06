@@ -31,6 +31,7 @@
 	#rmq-err { padding: 5px 0px; } /* currently unused*/
 
 .update { bottom: 60px; }
+	.remind { padding: 7px 10px 8px 5px; float: left; }
 	#update-input-l input {
 		width: 25px;
 		height: 22px;

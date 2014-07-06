@@ -387,8 +387,8 @@ var ST = function(){
         }   
         currentState["vl"][root]["state"] = VERTEX_HIGHLIGHTED;
         if (treetype != 2) {
-          currentState["vl"][internalSt[root*2]["value"]]["state"] = VERTEX_HIGHLIGHTED;
-          currentState["vl"][internalSt[root*2+1]["value"]]["state"] = VERTEX_HIGHLIGHTED;
+          currentState["vl"][vertexMax+internalSt[root*2]["value"]]["state"] = VERTEX_HIGHLIGHTED;
+          currentState["vl"][vertexMax+internalSt[root*2+1]["value"]]["state"] = VERTEX_HIGHLIGHTED;
         }
         stateList.push(currentState);
       }

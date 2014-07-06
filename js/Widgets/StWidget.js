@@ -155,10 +155,21 @@ var ST = function(){
         internalSt[root]["value"] = treefunc(internalSt[root*2]["value"], internalSt[root*2+1]["value"]);
         currentState = createState(internalSt, vertexTraversed, edgeTraversed);
         currentState["lineNo"] = 5;
-        currentState["status"] = "Set this to " + treefuncname + "(" + internalSt[root*2]["value"] + ", " + internalSt[root*2+1]["value"] + ") = " + internalSt[root]["value"];
+        switch (treetype){
+        case 0:
+          currentState["status"] = "if value["+internalSt[root*2]["value"]+"]&lt;value["+internalSt[root*2+1]["value"]+"] this ="+ internalSt[root*2]["value"]+" else this = "+ internalSt[root*2+1]["value"]; 
+          break;
+        case 1:
+          currentState["status"] = "if value["+internalSt[root*2]["value"]+"]&gt;value["+internalSt[root*2+1]["value"]+"] this ="+ internalSt[root*2]["value"]+" else this = "+ internalSt[root*2+1]["value"];
+          break;
+        case 2:
+          currentState["status"] = "Set this to " + treefuncname + "(" + internalSt[root*2]["value"] + ", " + internalSt[root*2+1]["value"] + ") = " + internalSt[root]["value"];
+        }
         currentState["vl"][root]["state"] = VERTEX_HIGHLIGHTED;
-        currentState["vl"][vertexMax+internalSt[root*2]["value"]]["state"] = VERTEX_HIGHLIGHTED;
-        currentState["vl"][vertexMax+internalSt[root*2+1]["value"]]["state"] = VERTEX_HIGHLIGHTED;
+        if (treetype != 2) {
+          currentState["vl"][vertexMax+internalSt[root*2]["value"]]["state"] = VERTEX_HIGHLIGHTED;
+          currentState["vl"][vertexMax+internalSt[root*2+1]["value"]]["state"] = VERTEX_HIGHLIGHTED;
+        }
         stateList.push(currentState);
       }
       delete vertexTraversed[root];
@@ -250,11 +261,20 @@ var ST = function(){
         currentState = createState(internalSt, vertexTraversed, edgeTraversed);
         currentState["lineNo"] = 6;
         ans = treefunc(left, right);
-        currentState["status"] = "return " + treefuncname + "(" + left + "," + right + ") = " + ans;
+        switch (treetype){
+        case 0:
+          currentState["status"]="if value["+left+"]&lt;value["+right+"] return"+ left+" else return "+ right; 
+          break;
+        case 1:
+          currentState["status"]="if value["+left+"]&rt;value["+right+"] return"+ left+" else return "+ right; 
+          break;
+        case 2:
+          currentState["status"] = "return " + treefuncname + "(" + left + "," + right + ") = " + ans;
+        } 
         currentState["vl"][root]["state"] = VERTEX_HIGHLIGHTED;
-        if (left)
+        if (left && (treetype != 2))
           currentState["vl"][vertexMax+left]["state"] = VERTEX_HIGHLIGHTED;
-        if (right)
+        if (right && (treetype != 2))
           currentState["vl"][vertexMax+right]["state"] = VERTEX_HIGHLIGHTED;
         stateList.push(currentState);
       }
@@ -355,10 +375,21 @@ var ST = function(){
         internalSt[root]["value"] = treefunc(internalSt[root*2]["value"], internalSt[root*2+1]["value"]);
         currentState = createState(internalSt, vertexTraversed, edgeTraversed);
         currentState["lineNo"] = 6;
-        currentState["status"] = "this=" + treefuncname + "(" + internalSt[root*2]["value"] + "," + internalSt[root*2+1]["value"] + ")" + "=" + internalSt[root]["value"];
+        switch (treetype){
+        case 0:
+          currentState["status"]="if value["+internalSt[root*2]["value"]+"]&lt;value["+internalSt[root*2+1]["value"]+"] this ="+ internalSt[root*2]["value"]+" else this = "+ internalSt[root*2+1]["value"]; 
+          break;
+        case 1:
+          currentState["status"]="if value["+internalSt[root*2]["value"]+"]&rt;value["+internalSt[root*2+1]["value"]+"] this ="+ internalSt[root*2]["value"]+" else this = "+ internalSt[root*2+1]["value"];
+          break;
+        case 2:
+          currentState["status"] = "Set this to " + treefuncname + "(" + internalSt[root*2]["value"] + ", " + internalSt[root*2+1]["value"] + ") = " + internalSt[root]["value"];
+        }   
         currentState["vl"][root]["state"] = VERTEX_HIGHLIGHTED;
-        currentState["vl"][internalSt[root*2]["value"]]["state"] = VERTEX_HIGHLIGHTED;
-        currentState["vl"][internalSt[root*2+1]["value"]]["state"] = VERTEX_HIGHLIGHTED;
+        if (treetype != 2) {
+          currentState["vl"][internalSt[root*2]["value"]]["state"] = VERTEX_HIGHLIGHTED;
+          currentState["vl"][internalSt[root*2+1]["value"]]["state"] = VERTEX_HIGHLIGHTED;
+        }
         stateList.push(currentState);
       }
     }
@@ -570,7 +601,17 @@ var ST = function(){
       document.getElementById('code2').innerHTML = 'else';
       document.getElementById('code3').innerHTML = '&nbspbuild left_child, L, (L+R)/2';
       document.getElementById('code4').innerHTML = '&nbspbuild right_child, (L+R)/2+1, R';
-      document.getElementById('code5').innerHTML = '&nbspthis='+treefuncname+'(left_child, right_child)';
+    switch (treetype){
+      case 0:
+        document.getElementById('code5').innerHTML="if value[left_child]&lt;value[right_child] <br>this = left_child else this = right_child"; 
+        break;
+      case 1:
+        document.getElementById('code5').innerHTML="if value[left_child]&rt;value[right_child] <br>this = left_child else this = right_child"; 
+        break;
+      case 2:
+        document.getElementById('code5').innerHTML="this = sum(value[left_child],value[right_child])"; 
+    }
+      
       document.getElementById('code6').innerHTML = '';
       document.getElementById('code7').innerHTML = '';
       break;
@@ -580,7 +621,16 @@ var ST = function(){
       document.getElementById('code3').innerHTML = 'else';
       document.getElementById('code4').innerHTML = '&nbspRMQ at left_child, L, (L+R)/2';
       document.getElementById('code5').innerHTML = '&nbspRMQ at right_child, (L+R)/2+1, R';
-      document.getElementById('code6').innerHTML = '&nbspreturn '+treefuncname+'(left, right)';
+    switch (treetype){
+      case 0:
+        document.getElementById('code6').innerHTML="if value[left_child]&lt;value[right_child] <br>return left_child else return right_child"; 
+        break;
+      case 1:
+        document.getElementById('code6').innerHTML="if value[left_child]&rt;value[right_child] <br>return left_child else return right_child"; 
+        break;
+      case 2:
+        document.getElementById('code6').innerHTML="return sum(value[left_child],value[right_child])"; 
+    }
       document.getElementById('code7').innerHTML = '';
       break;
     case 2: // update
@@ -589,7 +639,16 @@ var ST = function(){
       document.getElementById('code3').innerHTML = '&nbsppass on lazy flag';
       document.getElementById('code4').innerHTML = '&nbspupdate at left_child, L, (L+R)/2';
       document.getElementById('code5').innerHTML = '&nbspupdate at right_child, (L+R)/2+1, R';
-      document.getElementById('code6').innerHTML = '&nbspupdate this=' + treefuncname + '(left, right)';
+    switch (treetype){
+      case 0:
+        document.getElementById('code6').innerHTML="if value[left_child]&lt;value[right_child] <br>this = left_child else this = right_child"; 
+        break;
+      case 1:
+        document.getElementById('code6').innerHTML="if value[left_child]&rt;value[right_child] <br>this = left_child else this = right_child"; 
+        break;
+      case 2:
+        document.getElementById('code6').innerHTML="this = sum(value[left_child],value[right_child])"; 
+    }
       document.getElementById('code7').innerHTML = '';
       break;
     }
